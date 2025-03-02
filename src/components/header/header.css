@@ -1,0 +1,52 @@
+.header-container {
+    background-color: var(--bg-color);
+    height: 90px;
+    box-shadow: 0px 4px 8px 0px #3971A440;
+    position: fixed;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+    width: 100%;
+    max-width: 1764px;
+}
+
+.header_logo {
+    height: 41px;
+    margin-right: auto;
+}
+
+.header_mail {
+    margin-left: 64px;
+}
+
+.header_theme-btn {
+    margin-left: 48px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.theme-btn_circle__light {
+    left: calc(100% - 22px);
+}
+
+.theme-btn_circle__dark {
+    left: 3px;
+}
+
+.theme-btn_circle {
+    position: absolute;
+    transition: 0.5s;
+    background-color: #fff;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+}

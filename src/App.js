@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import EmployeesList from './pages/employeesList/EmployeesList';
+import { useSelector } from 'react-redux';
+import Header from './components/header/Header';
+import Navigation from './components/navigation/Navigation';
 
 function App() {
+  const theme = useSelector((state) => state.theme.mode);
+
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <div className='page-content'>
+        <Navigation />
+        <EmployeesList />
+      </div>
     </div>
   );
 }
