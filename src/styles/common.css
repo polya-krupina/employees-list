@@ -24,7 +24,7 @@ body {
     background-color: var(--bg-color);
 }
 
-p, span, h1, button {
+p, span, h1, h2, button {
     transition: color 0.5s;
 }
 

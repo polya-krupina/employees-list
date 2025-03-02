@@ -1,180 +1,132 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilters } from '../../features/filtersSlice';
+import { fetchEmployees } from '../../features/employeesThunk';
 import Filter from '../../components/filter/Filter';
 import './employeesList.css'
 import Search from '../../components/search/Search';
 import { useEffect, useState } from 'react';
+import { setEmployees, setHasMore, setPage } from '../../features/employeesSlice';
+import Navigation from '../../components/navigation/Navigation';
+import { Link } from 'react-router-dom';
+import { formatDate } from '../../utils';
 
 const filterOptions = {
-  gender: [
-    { label: 'Мужчина', value: 'Male' },
-    { label: 'Женщина', value: 'Female' }
-  ],
-  position: [
-    { label: 'Backend-разработчик', value: 'Backend' },
-    { label: 'Frontend-разработчик', value: 'Frontend' },
-    { label: 'Аналитик', value: 'Analyst' },
-    { label: 'Менеджер', value: 'Manager' },
-    { label: 'Дизайнер', value: 'Designer' }
-  ],
-  stack: [
-    { label: 'C#', value: 'CSharp' },
-    { label: 'React', value: 'React' },
-    { label: 'Java', value: 'Java' },
-    { label: 'PHP', value: 'PHP' },
-    { label: 'Figma', value: 'Figma' },
-    { label: 'Word', value: 'Word' }
-  ]
+    gender: [
+        { label: 'Мужчина', value: 'Male' },
+        { label: 'Женщина', value: 'Female' }
+    ],
+    position: [
+        { label: 'Backend-разработчик', value: 'Backend' },
+        { label: 'Frontend-разработчик', value: 'Frontend' },
+        { label: 'Аналитик', value: 'Analyst' },
+        { label: 'Менеджер', value: 'Manager' },
+        { label: 'Дизайнер', value: 'Designer' }
+    ],
+    stack: [
+        { label: 'C#', value: 'CSharp' },
+        { label: 'React', value: 'React' },
+        { label: 'Java', value: 'Java' },
+        { label: 'PHP', value: 'PHP' },
+        { label: 'Figma', value: 'Figma' },
+        { label: 'Word', value: 'Word' }
+    ]
 };
 
 function EmployeesList() {
-    const [appliedFilters, setAppliedFilters] = useState({});
-    const [employees, setEmployees] = useState([]);
-    const [filtersLoaded, setFiltersLoaded] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+    const { employees, page, hasMore, isLoading, searchTerm } = useSelector(state => state.employees);
+    const { gender, position, stack } = useSelector(state => state.filters);
+    const [openFilter, setOpenFilter] = useState(null);
+
+    const handleOpenFilter = (filterKey) => {
+        setOpenFilter(filterKey);
+    };
 
     useEffect(() => {
-        const allFilters = {};
-        Object.keys(filterOptions).forEach((key) => {
-            const savedFilters = JSON.parse(localStorage.getItem(key)) || [];
-            const labels = savedFilters.map(value => {
-                const option = filterOptions[key].find(opt => opt.value === value);
-                return option ? option.label : value;
-            });
-            if (labels.length) {
-                allFilters[key] = labels;
-            }
-        });
-        setAppliedFilters(allFilters);
-        setFiltersLoaded(true);
+        dispatch(fetchEmployees(searchTerm, { gender, position, stack }, page));
     }, []);
 
-    useEffect(() => {
-        if (filtersLoaded) {
-            fetchEmployees(searchTerm, 1);
-        }
-    }, [filtersLoaded]);
+    const updateFilters = (key, values) => {
+        dispatch(setFilters({ key, values }));
+    };
 
-    const fetchEmployees = async (search = searchTerm, newPage = page) => {
-        if ((!hasMore && newPage > 1) || isLoading) return;
-        setIsLoading(true);
-    
-        const queryParams = [`Page=${newPage}`];
-    
-        Object.keys(appliedFilters).forEach((key) => {
-            if (appliedFilters[key]) {
-                appliedFilters[key].forEach(label => {
-                    const option = filterOptions[key].find(opt => opt.label === label);
-                    if (option) {
-                        queryParams.push(`${key}=${encodeURIComponent(option.value)}`);
-                    }
-                });
-            }
+    const handleSearch = (searchValue) => {
+        dispatch(setEmployees([]));
+        dispatch(setPage(1));
+        dispatch(setHasMore(true));
+        dispatch(fetchEmployees(searchValue, { gender, position, stack }, 1));
+    };
+
+    const getRussianFilterLabels = (filterKey, filterValues) => {
+        return (filterValues || []).map(value => {
+            const filterOption = filterOptions[filterKey]?.find(option => option.value === value);
+            return filterOption ? filterOption.label : value;
         });
-    
-        if (search) {
-            queryParams.push(`Name=${encodeURIComponent(search)}`);
-        }
-    
-        const url = `https://frontend-test-api.stk8s.66bit.ru/api/Employee?${queryParams.join('&')}`;
-    
-        try {
-            const response = await fetch(url);
-            if (response.ok) {
-                const data = await response.json();
-                if (data.length < 10) setHasMore(false);
-                setEmployees(prev => [...prev, ...data]);
-                setPage(newPage + 1);
-            } else {
-                console.error('Ошибка при загрузке данных сотрудников');
-            }
-        } catch (error) {
-            console.error('Ошибка при выполнении запроса:', error);
-        } finally {
-            setIsLoading(false);
-        }
+    };
+
+    const russianFilters = {
+        gender: getRussianFilterLabels('gender', gender),
+        position: getRussianFilterLabels('position', position),
+        stack: getRussianFilterLabels('stack', stack),
     };
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight &&
-                !isLoading && hasMore) {
-                fetchEmployees();
+            if (
+                window.innerHeight + window.scrollY >= document.documentElement.scrollHeight &&
+                !isLoading && hasMore
+            ) {
+                dispatch(fetchEmployees(searchTerm, { gender, position, stack }, page));
             }
         };
-    
         window.addEventListener('scroll', handleScroll);
+        
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [hasMore, isLoading]);
-  
-    const updateFilters = (key, values) => {
-        const labels = values.map(value => {
-            const option = filterOptions[key].find(opt => opt.value === value);
-            return option ? option.label : value;
-        });
-        setAppliedFilters(prev => ({
-            ...prev,
-            [key]: labels.length ? labels : undefined
-        }));
+    }, [hasMore, isLoading, page, dispatch]);
+
+
+    const removeFilter = (filterKey, label) => {
+        console.log(filterKey, label);
+        const updatedFilters = (filterKey === 'gender' ? gender : filterKey === 'position' ? position : stack)
+                .filter(value    =>    label !== getRussianFilterLabels(filterKey, [value])[0]);
+        console.log(updatedFilters);
+        dispatch(setFilters({ filterKey, selectedFilters: updatedFilters }));
     };
 
-    const handleSearch = (searchValue) => {
-        setSearchTerm(searchValue);
-        setEmployees([]);
-        setPage(1);
-        setHasMore(true);
-        fetchEmployees(searchValue, 1);
-    };
-
-    function formatDate(dateString) {
-        const months = {
-            января: '01',
-            февраля: '02',
-            марта: '03',
-            апреля: '04',
-            мая: '05',
-            июня: '06',
-            июля: '07',
-            августа: '08',
-            сентября: '09',
-            октября: '10',
-            ноября: '11',
-            декабря: '12'
-        };
-    
-        const [day, monthName, year] = dateString.split(' ');
-        const month = months[monthName.toLowerCase()];
-        return `${day}.${month}.${year}`;
-    }
-    
     return (
         <div className='employees-page'>
+                <Navigation />
             <div className="employees_head">
                 <h1 className="employees_title text-title">Список сотрудников</h1>
                 <div className="employees_filters">
-                    <Filter 
-                        defaultText='Должность' 
-                        filterKey='position' 
-                        options={filterOptions.position} 
-                        updateFilters={updateFilters} 
+                    <Filter
+                        defaultText='Должность'
+                        filterKey='position'
+                        options={filterOptions.position}
+                        updateFilters={updateFilters}
+                        isOpen={openFilter === 'position'}
+                        onOpen={handleOpenFilter}
                     />
-                    <Filter 
-                        defaultText='Пол' 
-                        filterKey='gender' 
-                        options={filterOptions.gender} 
-                        updateFilters={updateFilters} 
+                    <Filter
+                        defaultText='Пол'
+                        filterKey='gender'
+                        options={filterOptions.gender}
+                        updateFilters={updateFilters}
+                        isOpen={openFilter === 'gender'}
+                        onOpen={handleOpenFilter}
                     />
-                    <Filter 
-                        defaultText='Стек технологий' 
-                        filterKey='stack' 
-                        options={filterOptions.stack} 
-                        updateFilters={updateFilters} 
+                    <Filter
+                        defaultText='Стек технологий'
+                        filterKey='stack'
+                        options={filterOptions.stack}
+                        updateFilters={updateFilters}
+                        isOpen={openFilter === 'stack'}
+                        onOpen={handleOpenFilter}
                     />
                 </div>
             </div>
             <div className="employees_search">
-                <Search appliedFilters={appliedFilters} onSearch={handleSearch} />
+                <Search appliedFilters={russianFilters} onSearch={handleSearch} removeFilter={removeFilter} />
             </div>
             <div className='employees-list_head'>
                 <span className='employees-list_title'>ФИО</span>
@@ -182,17 +134,18 @@ function EmployeesList() {
                 <span className='employees-list_title'>Телефон</span>
                 <span className='employees-list_title'>Дата рождения</span>
             </div>
-            <div className='employees-list'>
+            <ul className='employees-list'>
                 {employees.map(employee => (
-                    <div key={employee.id} className='employees-list_item'>
-                        <span className='employees-list_name'>{employee.name}</span>
-                        <span className='employees-list_job'>{employee.position}</span>
-                        <span className='employees-list_number'>{employee.phone}</span>
-                        <span className='employees-list_birth'>{formatDate(employee.birthdate)}</span>
-                    </div>
+                    <li key={employee.id}>
+                        <Link to={`/employee/${employee.id}`} className='employees-list_item'>
+                                <span className='employees-list_name'>{employee.name}</span>
+                                <span className='employees-list_job'>{employee.position}</span>
+                                <span className='employees-list_number'>{employee.phone}</span>
+                                <span className='employees-list_birth'>{formatDate(employee.birthdate)}</span>
+                        </Link>
+                    </li>
                 ))}
-            </div>
-
+            </ul>
         </div>
     );
 }

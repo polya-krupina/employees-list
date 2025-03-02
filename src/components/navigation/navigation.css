@@ -10,3 +10,10 @@
     height: 77px;
     margin-bottom: 16px;
 }
+
+.navigation_link {
+    color: var(--second-text-color);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
