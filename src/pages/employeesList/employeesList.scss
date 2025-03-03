@@ -113,3 +113,12 @@
         padding: 12px 0;
     }        
 }
+
+.employees-list__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+    padding-top: 52px;
+    font-size: 1.2em;
+}

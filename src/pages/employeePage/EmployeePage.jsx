@@ -1,8 +1,9 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Navigation from '../../components/navigation/Navigation';
 import './employeePage.scss';
 import { formatDate } from '../../utils';
+import { API_URL } from '../../constants';
 
 function EmployeePage() {
     const { employeeId } = useParams();
@@ -13,7 +14,7 @@ function EmployeePage() {
     useEffect(() => {
         const fetchEmployeeData = async () => {
             try {
-                const response = await fetch(`https://frontend-test-api.stk8s.66bit.ru/api/Employee/${employeeId}`);
+                const response = await fetch(`${API_URL}/Employee/${employeeId}`);
                 
                 if (!response.ok) {
                     throw new Error('Не удалось загрузить данные сотрудника');
@@ -36,7 +37,14 @@ function EmployeePage() {
     }
 
     if (error) {
-        return <div>Ошибка: {error}</div>;
+        return <div className='employee_not-found'>
+            <h1 className='not-found_title text-title'>
+                Сотрудник не найден
+            </h1>
+            <Link to={'/'} className='not-found_link'>
+                <p>Вернуться к списку сотрудников</p>
+            </Link>
+        </div>;
     }
 
     return (

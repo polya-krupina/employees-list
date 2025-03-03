@@ -1,26 +1,5 @@
+import { API_URL, filterOptions } from '../constants';
 import { setLoading, appendEmployees, setHasMore, setPage } from './employeesSlice';
-
-const filterOptions = {
-    gender: [
-        { label: 'Мужчина', value: 'Male' },
-        { label: 'Женщина', value: 'Female' }
-    ],
-    position: [
-        { label: 'Backend-разработчик', value: 'Backend' },
-        { label: 'Frontend-разработчик', value: 'Frontend' },
-        { label: 'Аналитик', value: 'Analyst' },
-        { label: 'Менеджер', value: 'Manager' },
-        { label: 'Дизайнер', value: 'Designer' }
-    ],
-    stack: [
-        { label: 'C#', value: 'CSharp' },
-        { label: 'React', value: 'React' },
-        { label: 'Java', value: 'Java' },
-        { label: 'PHP', value: 'PHP' },
-        { label: 'Figma', value: 'Figma' },
-        { label: 'Word', value: 'Word' }
-    ]
-};
 
 export const fetchEmployees = (searchTerm, filters, page) => async (dispatch, getState) => {
     const { hasMore, isLoading } = getState().employees;
@@ -43,7 +22,7 @@ export const fetchEmployees = (searchTerm, filters, page) => async (dispatch, ge
         queryParams.push(`Name=${encodeURIComponent(searchTerm)}`);
     }
 
-    const url = `https://frontend-test-api.stk8s.66bit.ru/api/Employee?${queryParams.join('&')}`;
+    const url = `${API_URL}/Employee?${queryParams.join('&')}`;
 
     try {
         const response = await fetch(url);

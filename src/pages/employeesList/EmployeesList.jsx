@@ -8,28 +8,7 @@ import { setEmployees, setHasMore, setPage } from '../../features/employeesSlice
 import Navigation from '../../components/navigation/Navigation';
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../utils';
-
-const filterOptions = {
-    gender: [
-        { label: 'Мужчина', value: 'Male' },
-        { label: 'Женщина', value: 'Female' }
-    ],
-    position: [
-        { label: 'Backend-разработчик', value: 'Backend' },
-        { label: 'Frontend-разработчик', value: 'Frontend' },
-        { label: 'Аналитик', value: 'Analyst' },
-        { label: 'Менеджер', value: 'Manager' },
-        { label: 'Дизайнер', value: 'Designer' }
-    ],
-    stack: [
-        { label: 'C#', value: 'CSharp' },
-        { label: 'React', value: 'React' },
-        { label: 'Java', value: 'Java' },
-        { label: 'PHP', value: 'PHP' },
-        { label: 'Figma', value: 'Figma' },
-        { label: 'Word', value: 'Word' }
-    ]
-};
+import { filterOptions } from '../../constants';
 
 function EmployeesList() {
     const dispatch = useDispatch();
@@ -94,17 +73,23 @@ function EmployeesList() {
                     <span className='employees-list_title'>Телефон</span>
                     <span className='employees-list_title'>Дата рождения</span>
                 </div>
-                <ul className='employees-list'>
-                    {employees.map(employee => (
-                        <li key={employee.id}>
+                <ul className={`employees-list ${employees && employees.length > 0 ? '' : 'employees-list__empty'}`}>
+                    {employees && employees.length || isLoading > 0 ? (
+                        employees.map(employee => (
+                            <li key={employee.id}>
                             <Link to={`/employee/${employee.id}`} className='employees-list_item'>
-                                    <span className='employees-list_name'>{employee.name}</span>
-                                    <span className='employees-list_job'>{employee.position}</span>
-                                    <span className='employees-list_number'>{employee.phone}</span>
-                                    <span className='employees-list_birth'>{formatDate(employee.birthdate)}</span>
+                                <span className='employees-list_name'>{employee.name}</span>
+                                <span className='employees-list_job'>{employee.position}</span>
+                                <span className='employees-list_number'>{employee.phone}</span>
+                                <span className='employees-list_birth'>{formatDate(employee.birthdate)}</span>
                             </Link>
-                        </li>
-                    ))}
+                            </li>
+                        ))
+                        ) : (
+                        <p>
+                            Сотрудники не найдены
+                        </p>
+                    )}
                 </ul>
             </div>
         </div>
