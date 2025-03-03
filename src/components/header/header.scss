@@ -1,3 +1,5 @@
+@use '../../styles/breakpoints.scss' as b;
+
 .header-container {
     background-color: var(--bg-color);
     height: 90px;
@@ -15,7 +17,7 @@
     align-items: center;
     font-size: 0.9em;
     width: 100%;
-    max-width: 1764px;
+    max-width: 1664px;
 }
 
 .header_logo {
@@ -35,7 +37,7 @@
 }
 
 .theme-btn_circle__light {
-    left: calc(100% - 22px);
+    left: calc(100% - 23px);
 }
 
 .theme-btn_circle__dark {
@@ -49,4 +51,45 @@
     height: 20px;
     width: 20px;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: b.$breakpoint-tablet) {
+    .header-container {
+        height: 54px;
+    }
+
+    .header_logo {
+        height: 22px;
+        margin-right: auto;
+    }
+
+    .header_number,
+    .header_mail {
+        display: none;
+    }
+
+    .header_theme-btn {
+        width: 47px;
+    }
+
+    .theme-btn_circle {
+        width: 17px;
+        height: 17px;
+    }
+
+    .theme-btn_circle > svg {
+        width: 11px;
+        height: 11px;
+    }
+
+    .theme-btn_circle__light {
+        left: calc(100% - 20px);
+    }
+    
+    .theme-btn_circle__dark {
+        left: 3px;
+    }
 }

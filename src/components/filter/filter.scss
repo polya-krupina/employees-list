@@ -1,3 +1,5 @@
+@use '../../styles/breakpoints.scss' as b;
+
 .filter {
     position: relative;
 }
@@ -8,6 +10,19 @@
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.filter_value__active {
+    color: var(--accent);
+}
+
+.filter_value > svg {
+    transform: rotate(180deg);
+    transition: transform 0.5s;
+}
+
+.filter_value__active > svg {
+    transform: rotate(0);
 }
 
 .filter_value:hover {
@@ -57,4 +72,30 @@
 
 .filter_option-input:checked + .custom-checkbox {
     background-image: url('../../img/checkbox-true.svg');
+}
+
+@media (max-width: 1070px) {
+    .filter_options {
+        width: 224px;
+    }
+    .filter:first-child .filter_options {
+        left: 0;
+    }
+}
+
+
+@media (max-width: b.$breakpoint-mobile) {
+    .filter {
+        font-size: 0.6em;
+        line-height: 14.09px;
+    }
+
+    .filter_value > svg {
+        min-width: 10px;
+        width: 10px;
+    }
+
+    .filter_value {
+        gap: 8px;
+    }
 }

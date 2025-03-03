@@ -1,0 +1,50 @@
+@use '../../styles/breakpoints.scss' as b;
+
+.navigation {
+    display: flex;
+    gap: 16px;
+    font-weight: 500;
+    font-size: 0.9em;
+    line-height: 21.13px;
+    letter-spacing: 2%;
+    align-items: center;
+    color: var(--second-text-color);
+    height: 77px;
+    margin-bottom: 16px;
+}
+
+.navigation_main-link {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.navigation_link {
+    color: var(--second-text-color);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.navigation_employee-link > span, .navigation_employee-link {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: b.$breakpoint-tablet) {
+    .navigation_main-link {
+        display: none;
+    }
+
+    .navigation {
+        display: none;
+    }
+}
+
+@media (max-width: b.$breakpoint-mobile) {
+    .navigation {
+        font-size: 0.7em;
+    }
+
+}

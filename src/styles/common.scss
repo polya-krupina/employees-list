@@ -1,7 +1,10 @@
+@use './breakpoints.scss' as b;
+
 :root {
     --page-padding: 90px;
     --second-text-color: #B0B0B0;
     --accent: #155DA4;
+    --breakpoint-tablet: 765px;
 }
 
 .light {
@@ -47,8 +50,15 @@ svg {
     background-color: var(--bg-color);
     height: 100vh;
     width: 100%;
-    max-width: 1764px;
+    max-width: 1664px;
     padding-top: 90px;
+}
+
+.text-title {
+    font-weight: 700;
+    font-size: 2em;
+    line-height: 46.96px;
+    letter-spacing: 0%;
 }
 
 @media (max-width: 1764px) {
@@ -62,13 +72,33 @@ svg {
     .search_options {
         margin-left: calc(var(--page-padding)*(-1));
         margin-right: calc(var(--page-padding)*(-1));
-        padding: 0 var(--page-padding);
+        padding: 13px var(--page-padding);
     }
 }
 
-.text-title {
-    font-weight: 700;
-    font-size: 40px;
-    line-height: 46.96px;
-    letter-spacing: 0%;
+@media (max-width: b.$breakpoint-desktop) {
+    :root {
+        --page-padding: 24px;
+    }
+}
+
+@media (max-width: b.$breakpoint-tablet) {
+    .page-content {
+        padding-top: 54px;
+    }
+
+    body {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: b.$breakpoint-mobile) {
+    body {
+        font-size: 20px;
+    }
+
+    .text-title {
+        font-size: 1em;
+        line-height: 23.48px;
+    }
 }

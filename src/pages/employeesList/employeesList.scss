@@ -1,0 +1,115 @@
+@use '../../styles/breakpoints.scss' as b;
+
+.employees_filters {
+    display: flex;
+    gap: 32px;
+    grid-area: filters;
+}
+
+.employees-list_head {
+    margin-top: 32px;
+    margin-bottom: 28px;
+    display: grid;
+    width: 100%;
+    grid-template-columns: 40% 25% 1fr 151px;
+    gap: 10px;
+    font-weight: 500;
+    line-height: 23.48px;
+    letter-spacing: 0%;
+    color: var(--second-text-color);
+}
+
+.employees-list_item {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 40% 25% 1fr 151px;
+    gap: 16px;
+    line-height: 23.48px;
+    letter-spacing: 0%;
+    color: var(--text-color);
+    padding: 28px 0;
+    position: relative;
+    border-top: 1px solid var(--second-color);
+}
+
+.employees-list_item:hover {
+    background-color: var(--second-color);
+}
+
+.employees-list_item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -11px;
+    right: -11px;
+    height: 100%;
+    border-left: 12px solid var(--second-color);
+    border-right: 12px solid var(--second-color);
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.employees-list_item:hover::after {
+    opacity: 1;
+}
+
+.employees-list_number,
+.employees-list_birth {
+    white-space: nowrap;
+}
+
+
+@media (max-width: 1100px) {
+    .employees-list_head {
+        grid-template-columns: 1fr 1fr 1fr 151px;
+    }
+
+    .employees-list_item {
+        grid-template-columns: 1fr 1fr 1fr 151px;
+    }
+}
+
+
+@media (max-width: b.$breakpoint-tablet) {
+    .employees-list_head {
+        grid-template-columns: 1fr 1fr 1fr 121px;
+    }
+
+    .employees-list_item {
+        grid-template-columns: 1fr 1fr 1fr 121px;
+    }
+}
+
+
+@media (max-width: b.$breakpoint-mobile) {
+    .employees-list_container {
+        overflow-x: scroll;
+    }
+    .employees-list_container::-webkit-scrollbar {
+        width: 30px;
+    }
+      
+    .employees-list_container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+      
+    .employees-list_container::-webkit-scrollbar-thumb {
+        background: var(--second-color);
+        border-radius: 5px;
+    }
+    
+    .employees-list_head {
+        font-size: 0.5em;
+        grid-template-columns: 1fr 1fr 1fr 76px;
+        min-width: 383px;
+        margin-bottom: 4px;
+    }
+
+    .employees-list_item {
+        font-size: 0.6em;
+        grid-template-columns: 1fr 1fr 1fr 76px;
+        min-width: 383px;
+        padding: 12px 0;
+    }        
+}

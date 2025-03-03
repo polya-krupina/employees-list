@@ -1,4 +1,4 @@
-import './header.css'
+import './header.scss'
 import logo from '../../logo.svg'
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleTheme } from '../../features/themeSlice';
@@ -19,8 +19,8 @@ function Header() {
                         <rect width="55" height="26" rx="13" fill="#155DA4"/>
                         </g>
                         <defs>
-                        <filter id="filter0_i_4183_473" x="0" y="0" width="55" height="30" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <filter id="filter0_i_4183_473" x="0" y="0" width="55" height="30" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                        <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                         <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
                         <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                         <feOffset dy="4"/>
@@ -38,8 +38,8 @@ function Header() {
                             </svg>
                         ) : (
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6.99967 10.7917C9.09375 10.7917 10.7913 9.09408 10.7913 7C10.7913 4.90592 9.09375 3.20833 6.99967 3.20833C4.90559 3.20833 3.20801 4.90592 3.20801 7C3.20801 9.09408 4.90559 10.7917 6.99967 10.7917Z" stroke="#155DA4" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M11.1653 11.165L11.0895 11.0892M11.0895 2.91083L11.1653 2.835L11.0895 2.91083ZM2.83533 11.165L2.91116 11.0892L2.83533 11.165ZM7.00033 1.21333V1.16667V1.21333ZM7.00033 12.8333V12.7867V12.8333ZM1.21366 7H1.16699H1.21366ZM12.8337 7H12.787H12.8337ZM2.91116 2.91083L2.83533 2.835L2.91116 2.91083Z" stroke="#155DA4" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6.99967 10.7917C9.09375 10.7917 10.7913 9.09408 10.7913 7C10.7913 4.90592 9.09375 3.20833 6.99967 3.20833C4.90559 3.20833 3.20801 4.90592 3.20801 7C3.20801 9.09408 4.90559 10.7917 6.99967 10.7917Z" stroke="#155DA4" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M11.1653 11.165L11.0895 11.0892M11.0895 2.91083L11.1653 2.835L11.0895 2.91083ZM2.83533 11.165L2.91116 11.0892L2.83533 11.165ZM7.00033 1.21333V1.16667V1.21333ZM7.00033 12.8333V12.7867V12.8333ZM1.21366 7H1.16699H1.21366ZM12.8337 7H12.787H12.8337ZM2.91116 2.91083L2.83533 2.835L2.91116 2.91083Z" stroke="#155DA4" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         )}
                     </div>

@@ -1,0 +1,146 @@
+@use '../../styles/breakpoints.scss' as b;
+
+.employee-main-info {
+    display: grid;
+    grid-template-areas: 
+        "avatar name"
+        "avatar position"
+        "avatar stack";
+    column-gap: 42px;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--second-color);
+}
+
+.employee-info_name {
+    grid-area: name;
+}
+
+.employee-info_photo {
+    width: 163px;
+    min-width: 163px;
+    height: 163px;
+    border-radius: 50%;
+    object-fit: cover;
+    grid-area: avatar;
+}
+
+.employee-info_position {
+    font-weight: 500;
+    font-size: 1.2em;
+    line-height: 28.18px;
+    letter-spacing: 0%;
+    grid-area: position;
+}
+
+.employee-info_stack {
+    display: flex;
+    gap: 16px;
+    grid-area: stack;
+}
+
+.employee-info_stack-item {
+    font-size: 0.8em;
+    line-height: 18.78px;
+    letter-spacing: 0%;
+    background-color: var(--second-color);
+    padding: 10px 21.5px;
+    border-radius: 5px;
+}
+
+.employee-info_container {
+    margin-top: 40px;
+}
+
+.employee-info_title {
+    font-weight: 600;
+    font-size: 1.6em;
+    line-height: 37.57px;
+    letter-spacing: 0%;
+}
+
+.employee-info {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: flex-start;
+    column-gap: 44px;
+    row-gap: 24px;
+    font-size: 1.2em;
+    line-height: 28.18px;
+    letter-spacing: 0%;
+    margin-top: 32px;
+}
+
+.employee-info_label {
+    font-weight: 500;
+}
+
+
+@media (max-width: b.$breakpoint-tablet) {
+    .employee-info {
+        column-gap: 44px;
+        row-gap: 16px;
+        margin-top: 24px;
+    }
+}
+
+@media (max-width: b.$breakpoint-mobile) {
+    .employee-main-info {
+        grid-template-areas: 
+            "avatar name"
+            "avatar position"
+            "stack stack";
+        column-gap: 16px;
+        row-gap: 12px;
+    }
+
+    .employee-info_photo {
+        width: 100px;
+        min-width: 100px;
+        height: 100px;
+    }
+
+    .employee-info {
+        column-gap: 18px;
+        row-gap: 12px;
+        font-size: 0.7em;
+        line-height: 16.44px;
+        margin-top: 16px;
+    }
+
+    .employee-info_title {
+        font-size: 0.8em;
+        line-height: 18.78px;
+    }
+
+    .employee-info_position {
+        font-size: 0.7em;
+        line-height: 16.44px;
+        letter-spacing: 0%;
+    }
+
+    .employee-info_stack-item {
+        font-size: 0.6em;
+    }
+
+    .employee-main-info {
+        padding-bottom: 20px;
+        border: none;
+        position: relative;
+    }
+
+    .employee-main-info::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: calc(var(--page-padding) * (-1));
+        right: calc(var(--page-padding) * (-1));
+        height: 1px;
+        background-color: var(--second-color);
+    }
+
+    .employee-info_container {
+        margin-top: 20px;
+    }
+}

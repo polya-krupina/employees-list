@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Navigation from '../../components/navigation/Navigation';
-import './employeePage.css';
+import './employeePage.scss';
 import { formatDate } from '../../utils';
 
 function EmployeePage() {

@@ -1,8 +1,35 @@
 import { useState } from 'react';
-import './search.css'
+import './search.scss'
+import Filter from '../filter/Filter';
+import { setFilters } from '../../features/filtersSlice';
+import { useDispatch } from 'react-redux';
+
+const filterOptions = {
+    gender: [
+        { label: 'Мужчина', value: 'Male' },
+        { label: 'Женщина', value: 'Female' }
+    ],
+    position: [
+        { label: 'Backend-разработчик', value: 'Backend' },
+        { label: 'Frontend-разработчик', value: 'Frontend' },
+        { label: 'Аналитик', value: 'Analyst' },
+        { label: 'Менеджер', value: 'Manager' },
+        { label: 'Дизайнер', value: 'Designer' }
+    ],
+    stack: [
+        { label: 'C#', value: 'CSharp' },
+        { label: 'React', value: 'React' },
+        { label: 'Java', value: 'Java' },
+        { label: 'PHP', value: 'PHP' },
+        { label: 'Figma', value: 'Figma' },
+        { label: 'Word', value: 'Word' }
+    ]
+};
 
 function Search({ appliedFilters, onSearch, removeFilter }) {
+    const dispatch = useDispatch();
     const [searchValue, setSearchValue] = useState('');
+    const [openFilter, setOpenFilter] = useState(null);
 
     const handleSearch = () => {
         onSearch(searchValue);
@@ -11,9 +38,44 @@ function Search({ appliedFilters, onSearch, removeFilter }) {
     const handleRemoveFilter = (filterKey, label) => {
         removeFilter(filterKey, label);
     };
+    
+    const handleOpenFilter = (filterKey) => {
+        setOpenFilter(filterKey);
+    };
+    
+    const updateFilters = (key, values) => {
+        dispatch(setFilters({ key, values }));
+    };
 
     return (
         <div className='search'>
+            <h1 className="employees_title text-title">Список сотрудников</h1>
+            <div className="employees_filters">
+                <Filter
+                    defaultText='Должность'
+                    filterKey='position'
+                    options={filterOptions.position}
+                    updateFilters={updateFilters}
+                    isOpen={openFilter === 'position'}
+                    onOpen={handleOpenFilter}
+                />
+                <Filter
+                    defaultText='Пол'
+                    filterKey='gender'
+                    options={filterOptions.gender}
+                    updateFilters={updateFilters}
+                    isOpen={openFilter === 'gender'}
+                    onOpen={handleOpenFilter}
+                />
+                <Filter
+                    defaultText='Стек технологий'
+                    filterKey='stack'
+                    options={filterOptions.stack}
+                    updateFilters={updateFilters}
+                    isOpen={openFilter === 'stack'}
+                    onOpen={handleOpenFilter}
+                />
+            </div>
             <input
                 className='search_input'
                 type="text"

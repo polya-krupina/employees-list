@@ -1,4 +1,4 @@
-import './filter.css';
+import './filter.scss';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilters } from '../../features/filtersSlice';
@@ -48,7 +48,7 @@ function Filter({ filterKey, defaultText, options, isOpen, onOpen }) {
 
     return (
         <div className="filter" ref={filterRef}>
-            <div className="filter_value" onClick={handleFilterClick}>
+            <div className={`filter_value ${isOpen ? 'filter_value__active' : ''}`} onClick={handleFilterClick}>
                 <span>{defaultText}</span>
                 <svg width="20" height="9" viewBox="0 0 20 9" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
