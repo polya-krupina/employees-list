@@ -31,7 +31,9 @@ function Filter({ filterKey, defaultText, options, isOpen, onOpen }) {
         } else {
             params.delete(filterKey);
         }
-        window.history.replaceState(null, '', '?' + params.toString());
+        const queryString = params.toString();
+        const newUrl = queryString.length > 0 ? '?' + queryString : window.location.pathname;
+        window.history.replaceState(null, '', newUrl);
     }, [selectedFilters, filterKey]);
 
     const toggleFilter = (value) => {
