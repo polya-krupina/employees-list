@@ -20,12 +20,12 @@ const mergeFilters = () => {
     const localFilters = loadFiltersFromLocalStorage();
     const urlFilters = loadFiltersFromUrl();
 
-    const mergedFilters = { ...localFilters, ...urlFilters };
-    if (JSON.stringify(localFilters) !== JSON.stringify(urlFilters)) {
-        localStorage.setItem('filters', JSON.stringify(mergedFilters));
+    if (Object.keys(urlFilters).length) {
+        localStorage.setItem('filters', JSON.stringify(urlFilters));
+        return urlFilters;
     }
 
-    return mergedFilters;
+    return localFilters;
 };
 
 const initialState = mergeFilters();
